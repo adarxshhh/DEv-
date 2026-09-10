@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adarsh Banshpal — Creative Developer & Analytics Architect</title>
+  <meta name="description" content="Creative Developer & Analytics Architect Portfolio inspired by modern interactive craft. Built with HTML, Tailwind CSS, GSAP, and Lenis." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            dark: {
+              950: '#07080c',
+              900: '#0b0d14',
+              850: '#10131d',
+              800: '#171b29',
+              700: '#23293d'
+            },
+            accent: {
+              cyan: '#00f2fe',
+              blue: '#4facfe',
+              emerald: '#10b981',
+              violet: '#8b5cf6',
+              purple: '#d946ef'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Space Grotesk"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          animation: {
+            'marquee': 'marquee 25s linear infinite',
+            'marquee-reverse': 'marquee-reverse 25s linear infinite',
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' }
+            },
+            'marquee-reverse': {
+              '0%': { transform: 'translateX(-50%)' },
+              '100%': { transform: 'translateX(0%)' }
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- GSAP & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #07080c;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e2436;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00f2fe;
+    }
+
+    /* Custom Cursor */
+    .custom-cursor-dot {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 8px;
+      height: 8px;
+      background-color: #00f2fe;
+      border-radius: 50%;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.2s ease;
+    }
+    .custom-cursor-ring {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 38px;
+      height: 38px;
+      border: 1.5px solid rgba(0, 242, 254, 0.45);
+      border-radius: 50%;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+    }
+    .cursor-active {
+      width: 58px;
+      height: 58px;
+      border-color: rgba(0, 242, 254, 0.9);
+      background-color: rgba(0, 242, 254, 0.08);
+    }
+
+    /* Gradient Texts */
+    .text-gradient-sheen {
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 45%, #00f2fe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .text-gradient-cyan-blue {
+      background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .text-gradient-violet {
+      background: linear-gradient(135deg, #c084fc 0%, #d946ef 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Card Glow & Border */
+    .card-glass {
+      background: rgba(16, 19, 29, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .card-glass:hover {
+      border-color: rgba(0, 242, 254, 0.35);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -15px rgba(0, 242, 254, 0.12);
+    }
+
+    /* Ambient Glow mesh */
+    .ambient-glow-top {
+      position: absolute;
+      top: -150px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(0, 242, 254, 0.12) 0%, rgba(79, 172, 254, 0.05) 50%, transparent 75%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .ambient-glow-side {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body class="bg-dark-950 text-slate-200 font-sans antialiased selection:bg-accent-cyan/20 selection:text-accent-cyan relative overflow-x-hidden">
+
+  <!-- Custom Cursor Elements -->
+  <div id="cursor-dot" class="custom-cursor-dot hidden md:block"></div>
+  <div id="cursor-ring" class="custom-cursor-ring hidden md:block"></div>
+
+  <!-- Background Ambience -->
+  <div class="ambient-glow-top"></div>
+  <div class="ambient-glow-side top-[1800px] left-[-200px]"></div>
+  <div class="ambient-glow-side top-[3600px] right-[-200px]"></div>
+
+  <!-- Header / Navigation -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-dark-950/80 backdrop-blur-xl border-b border-white/5 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#hero" class="group flex items-center gap-3 interactive-hover">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-cyan to-accent-blue p-[1px] transition-transform duration-300 group-hover:scale-105 shadow-[0_0_20px_rgba(0,242,254,0.25)]">
+          <div class="w-full h-full bg-dark-950 rounded-[11px] flex items-center justify-center font-display font-black text-white text-sm tracking-wider">
+            AB
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-display font-bold text-white text-base tracking-tight group-hover:text-accent-cyan transition-colors">
+            Adarsh Banshpal
+          </span>
+          <span class="text-[11px] font-mono text-slate-400">
+            Analytics &middot; Frontend &middot; Engineering
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <a href="#work" class="hover:text-white transition-colors interactive-hover py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-accent-cyan hover:after:w-full after:transition-all">WORK</a>
+        <a href="#about" class="hover:text-white transition-colors interactive-hover py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-accent-cyan hover:after:w-full after:transition-all">ABOUT</a>
+        <a href="#experience" class="hover:text-white transition-colors interactive-hover py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-accent-cyan hover:after:w-full after:transition-all">EXPERIENCE</a>
+        <a href="#skills" class="hover:text-white transition-colors interactive-hover py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-accent-cyan hover:after:w-full after:transition-all">SKILLS</a>
+        <a href="#journal" class="hover:text-white transition-colors interactive-hover py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-accent-cyan hover:after:w-full after:transition-all">JOURNAL</a>
+      </nav>
+
+      <!-- Status Pill & Contact Button -->
+      <div class="flex items-center gap-4">
+        <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-mono text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>AVAILABLE FOR SELECT ROLES</span>
+        </div>
+        
+        <a href="#contact" class="interactive-hover px-5 py-2 rounded-xl bg-white text-dark-950 font-display font-bold text-xs uppercase tracking-wider hover:bg-accent-cyan hover:shadow-[0_0_25px_rgba(0,242,254,0.4)] transition-all duration-300">
+          Get in Touch
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section (Developer Flex Style as seen in reel) -->
+  <section id="hero" class="min-h-screen relative pt-36 pb-20 px-6 flex flex-col justify-between overflow-hidden">
+    <div class="max-w-7xl mx-auto w-full flex-1 flex flex-col justify-center relative z-10">
+      
+      <!-- Top Eyebrow Tag -->
+      <div class="gsap-hero-item flex items-center gap-3 mb-6">
+        <span class="px-3.5 py-1 rounded-full bg-accent-cyan/10 border border-accent-cyan/25 text-accent-cyan text-xs font-mono tracking-widest uppercase">
+          // CREATIVE DEVELOPER & ANALYTICS ARCHITECT
+        </span>
+        <span class="hidden sm:inline-block text-xs font-mono text-slate-500">
+          [ 120HZ INTERACTIVE SUITE ]
+        </span>
+      </div>
+
+      <!-- Main Brutalist Typographic Title (From Reel: "CREATIVE DEVELOPER") -->
+      <div class="gsap-hero-title mb-6">
+        <h1 class="font-display font-black text-6xl sm:text-8xl md:text-9xl lg:text-[130px] leading-[0.88] tracking-tighter uppercase text-white select-none">
+          <span class="block hover:text-accent-cyan transition-colors duration-300">CREATIVE</span>
+          <span class="block text-gradient-sheen hover:opacity-90 transition-opacity">DEVELOPER</span>
+        </h1>
+      </div>
+
+      <!-- Secondary Subtext & Architectural Positioning -->
+      <div class="gsap-hero-item grid grid-cols-1 md:grid-cols-12 gap-8 items-end mt-4">
+        <div class="md:col-span-7">
+          <p class="text-lg sm:text-xl md:text-2xl font-light text-slate-300 leading-relaxed max-w-2xl">
+            Synthesizing <span class="text-white font-semibold">first-principles mechanical engineering</span> with <span class="text-white font-semibold">quantitative data analytics</span>, interactive frontend craft, and cinematic creative production.
+          </p>
+          <div class="flex flex-wrap items-center gap-4 mt-8">
+            <a href="#work" class="interactive-hover px-8 py-4 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-blue text-dark-950 font-display font-bold text-sm uppercase tracking-wider shadow-[0_0_30px_rgba(0,242,254,0.3)] hover:shadow-[0_0_40px_rgba(0,242,254,0.5)] transition-all">
+              Explore Selected Work &darr;
+            </a>
+            <a href="https://in.linkedin.com/in/adarsh-banshpal-6a8504258" target="_blank" class="interactive-hover px-8 py-4 rounded-xl bg-dark-850 border border-white/10 hover:border-accent-cyan/40 text-white font-display font-medium text-sm tracking-wide transition-all">
+              Connect on LinkedIn &rarr;
+            </a>
+          </div>
+        </div>
+
+        <!-- Metric Cards -->
+        <div class="md:col-span-5 grid grid-cols-2 gap-4">
+          <div class="card-glass p-5 rounded-2xl">
+            <span class="font-mono text-xs text-accent-cyan block mb-1">EMPIRICAL OUTREACH</span>
+            <span class="font-display font-bold text-3xl text-white block">N = 100</span>
+            <span class="text-xs text-slate-400 mt-1 block">Healthcare Consumer Study</span>
+          </div>
+          <div class="card-glass p-5 rounded-2xl">
+            <span class="font-mono text-xs text-accent-violet block mb-1">HARDWARE R&D</span>
+            <span class="font-display font-bold text-3xl text-white block">10⁻² Torr</span>
+            <span class="text-xs text-slate-400 mt-1 block">Vacuum Chamber System</span>
+          </div>
+          <div class="card-glass p-5 rounded-2xl">
+            <span class="font-mono text-xs text-emerald-400 block mb-1">VIDEO ENGAGEMENT</span>
+            <span class="font-display font-bold text-3xl text-white block">40% Share</span>
+            <span class="text-xs text-slate-400 mt-1 block">Social Media Lead Driver</span>
+          </div>
+          <div class="card-glass p-5 rounded-2xl">
+            <span class="font-mono text-xs text-amber-400 block mb-1">ACADEMIC RIGOR</span>
+            <span class="font-display font-bold text-3xl text-white block">Dual Core</span>
+            <span class="text-xs text-slate-400 mt-1 block">MBA (70%) + B.Tech (74.7%)</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Location & Reel Indicators -->
+    <div class="max-w-7xl mx-auto w-full pt-16 flex items-center justify-between border-t border-white/5 text-xs font-mono text-slate-400">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-accent-cyan"></span>
+        <span>BASED IN JABALPUR, MADHYA PRADESH, INDIA</span>
+      </div>
+      <div class="hidden sm:flex items-center gap-6">
+        <span>GSAP &middot; LENIS &middot; TAILWIND &middot; ES6+</span>
+        <a href="#work" class="hover:text-accent-cyan transition-colors flex items-center gap-1.5">
+          SCROLL TO EXPLORE <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Infinite Marquee Ticker (Developer Flex Element) -->
+  <div class="border-y border-white/5 bg-dark-900/60 py-4 overflow-hidden relative select-none">
+    <div class="flex whitespace-nowrap animate-marquee">
+      <div class="flex items-center gap-8 mx-4 text-xs font-mono font-medium tracking-widest text-slate-400 uppercase">
+        <span class="text-white font-bold">TAILWIND CSS</span>
+        <span class="text-accent-cyan">&bull;</span>
+        <span class="text-white font-bold">GSAP ANIMATIONS</span>
+        <span class="text-accent-cyan">&bull;</span>
+        <span class="text-white font-bold">LENIS SMOOTH SCROLL</span>
+        <span class="text-accent-cyan">&bull;</span>
+        <span class="text-white font-bold">PYTHON DATA ANALYTICS</span>
+        <span class="text-accent-cyan">&bull;</span>
+        <span class="text-white font-bold">SQL PIPELINES</span>
+        <span class="text-accent-cyan">&bull;</span>
+        <span class="text-white font-bold">POWER BI & DAX</span>
+        <span class="text-accent-cyan">&bull;</span>
+        <span class="text-white font-bold">SOLIDWORKS 3D CAD</span>
+        <span class="text-accent-cyan">&bull;</span>
+        <span class="text-white font-bold">CREATIVE PRODUCTION</span>
+        <span class="text-accent-cyan">&bull;</span>
+        <span class="text-white font-bold">ADARSHIC REVERIE</span>
+        <span class="text-accent-cyan">&bull;</span>
+      </div>
+      <div class="flex items-center gap-8 mx-4 text-xs font-mono font-medium tracking-widest text-slate-400 uppercase">
+        <span class="text-white font-bold">TAILWIND CSS</span>
+        <span class="text-accent-cyan">&bull;</span>
+        <span class="text-white font-bold">GSAP ANIMATIONS</span>
+        <span class="text-accent-cyan">&bull;</span>
+        <span class="text-white font-bold">LENIS SMOOTH SCROLL</span>
+        <span class="text-accent-cyan">&bull;</span>
+        <span class="text-white font-bold">PYTHON DATA ANALYTICS</span>
+        <span class="text-accent-cyan">&bull;</span>
+        <span class="text-white font-bold">SQL PIPELINES</span>
+        <span class="text-accent-cyan">&bull;</span>
+        <span class="text-white font-bold">POWER BI & DAX</span>
+        <span class="text-accent-cyan">&bull;</span>
+        <span class="text-white font-bold">SOLIDWORKS 3D CAD</span>
+        <span class="text-accent-cyan">&bull;</span>
+        <span class="text-white font-bold">CREATIVE PRODUCTION</span>
+        <span class="text-accent-cyan">&bull;</span>
+        <span class="text-white font-bold">ADARSHIC REVERIE</span>
+        <span class="text-accent-cyan">&bull;</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 01: Selected Work -->
+  <section id="work" class="py-32 px-6 relative">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-6">
+        <div>
+          <span class="text-xs font-mono text-accent-cyan tracking-widest uppercase block mb-2">
+            // 01. SELECTED SHOWCASE
+          </span>
+          <h2 class="font-display font-black text-4xl sm:text-6xl text-white tracking-tight uppercase">
+            CRAFTED WORKS & SYSTEMS
+          </h2>
+        </div>
+        <p class="text-slate-400 max-w-md text-sm sm:text-base">
+          A showcase spanning quantitative marketing experiments, empirical hardware engineering, interactive web interfaces, and creative production.
+        </p>
+      </div>
+
+      <div class="space-y-16">
+
+        <!-- Project 01: Pitambara Physio Care -->
+        <div class="gsap-project-card card-glass rounded-3xl p-8 sm:p-12 relative overflow-hidden group">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div class="lg:col-span-7 space-y-6">
+              <div class="flex items-center gap-3">
+                <span class="text-4xl font-display font-black text-accent-cyan/30">01</span>
+                <span class="px-3 py-1 rounded-full bg-accent-cyan/10 border border-accent-cyan/20 text-accent-cyan text-xs font-mono uppercase">
+                  Data-Driven Marketing & Lead Gen
+                </span>
+              </div>
+              <h3 class="font-display font-bold text-3xl sm:text-4xl text-white group-hover:text-accent-cyan transition-colors">
+                Pitambara Physio Care & Rehab: Empirical Healthcare Growth
+              </h3>
+              <p class="text-slate-300 leading-relaxed text-sm sm:text-base">
+                Authored an empirical descriptive study surveying N=100 healthcare consumers across Jabalpur. Discovered that 35% of patient preference and 40% of interaction volume is driven by short-form video rehabilitation reels over static graphics.
+              </p>
+              
+              <div class="grid grid-cols-3 gap-4 pt-2">
+                <div class="p-3.5 rounded-xl bg-dark-900/80 border border-white/5">
+                  <span class="text-[11px] font-mono text-slate-400 block">PRIMARY DATA</span>
+                  <span class="font-display font-bold text-xl text-white">N = 100</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-dark-900/80 border border-white/5">
+                  <span class="text-[11px] font-mono text-slate-400 block">ENGAGEMENT DRIVER</span>
+                  <span class="font-display font-bold text-xl text-accent-cyan">40% Share</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-dark-900/80 border border-white/5">
+                  <span class="text-[11px] font-mono text-slate-400 block">INFOGRAPHIC CLARITY</span>
+                  <span class="font-display font-bold text-xl text-emerald-400">65% Score</span>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap gap-2 pt-2">
+                <span class="px-3 py-1 rounded-lg bg-dark-800 text-xs font-mono text-slate-300">Power BI</span>
+                <span class="px-3 py-1 rounded-lg bg-dark-800 text-xs font-mono text-slate-300">Statistical Research</span>
+                <span class="px-3 py-1 rounded-lg bg-dark-800 text-xs font-mono text-slate-300">Video Content Physics</span>
+                <span class="px-3 py-1 rounded-lg bg-dark-800 text-xs font-mono text-slate-300">Meta Ad Suites</span>
+              </div>
+            </div>
+
+            <div class="lg:col-span-5 bg-dark-900 rounded-2xl p-6 border border-white/10 relative overflow-hidden group-hover:border-accent-cyan/40 transition-colors">
+              <div class="space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-white/5">
+                  <span class="text-xs font-mono text-slate-400">SURVEY_CROSS_TABULATION.SQL</span>
+                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                </div>
+                <div class="font-mono text-xs text-slate-300 space-y-1.5">
+                  <div class="text-accent-cyan">// Patient Channel Preferences</div>
+                  <div><span class="text-slate-500">01</span> Instagram Reels: 35% Pref (40% DM Velocity)</div>
+                  <div><span class="text-slate-500">02</span> Structured Infographics: 65% Comprehension</div>
+                  <div><span class="text-slate-500">03</span> Clinic Walk-in Conversion Lift: +24%</div>
+                </div>
+                <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between">
+                  <span class="text-xs text-slate-400">Empirical Research Project</span>
+                  <span class="text-xs font-mono text-accent-cyan">COMPLETED &middot; 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 02: High-Vacuum Test Chamber -->
+        <div class="gsap-project-card card-glass rounded-3xl p-8 sm:p-12 relative overflow-hidden group">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div class="lg:col-span-7 space-y-6">
+              <div class="flex items-center gap-3">
+                <span class="text-4xl font-display font-black text-accent-violet/30">02</span>
+                <span class="px-3 py-1 rounded-full bg-accent-violet/10 border border-accent-violet/20 text-accent-violet text-xs font-mono uppercase">
+                  Hardware Systems & FEA Simulation
+                </span>
+              </div>
+              <h3 class="font-display font-bold text-3xl sm:text-4xl text-white group-hover:text-accent-violet transition-colors">
+                Hardware R&D: High-Vacuum Test Chamber
+              </h3>
+              <p class="text-slate-300 leading-relaxed text-sm sm:text-base">
+                Conceived, modeled, and manufactured a low-cost high-vacuum test chamber reaching 10⁻² Torr (~1.33 Pa). Executed full FEA structural simulation in SolidWorks, validating a Factor of Safety of 4.82 under negative differential atmospheric loads.
+              </p>
+              
+              <div class="grid grid-cols-3 gap-4 pt-2">
+                <div class="p-3.5 rounded-xl bg-dark-900/80 border border-white/5">
+                  <span class="text-[11px] font-mono text-slate-400 block">TARGET VACUUM</span>
+                  <span class="font-display font-bold text-xl text-accent-violet">10⁻² Torr</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-dark-900/80 border border-white/5">
+                  <span class="text-[11px] font-mono text-slate-400 block">MAX VON MISES</span>
+                  <span class="font-display font-bold text-xl text-white">42.5 MPa</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-dark-900/80 border border-white/5">
+                  <span class="text-[11px] font-mono text-slate-400 block">SAFETY FACTOR</span>
+                  <span class="font-display font-bold text-xl text-emerald-400">4.82 FOS</span>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap gap-2 pt-2">
+                <span class="px-3 py-1 rounded-lg bg-dark-800 text-xs font-mono text-slate-300">SolidWorks 3D CAD</span>
+                <span class="px-3 py-1 rounded-lg bg-dark-800 text-xs font-mono text-slate-300">FEA Stress Analysis</span>
+                <span class="px-3 py-1 rounded-lg bg-dark-800 text-xs font-mono text-slate-300">Grade 304 Stainless</span>
+                <span class="px-3 py-1 rounded-lg bg-dark-800 text-xs font-mono text-slate-300">O-Ring Gland Tolerances</span>
+              </div>
+            </div>
+
+            <div class="lg:col-span-5 bg-dark-900 rounded-2xl p-6 border border-white/10 relative overflow-hidden group-hover:border-accent-violet/40 transition-colors">
+              <div class="space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-white/5">
+                  <span class="text-xs font-mono text-slate-400">FEA_SIMULATION_TELEMETRY</span>
+                  <span class="w-2 h-2 rounded-full bg-accent-violet"></span>
+                </div>
+                <div class="font-mono text-xs text-slate-300 space-y-1.5">
+                  <div class="text-accent-violet">// Vacuum Chamber Specifications</div>
+                  <div><span class="text-slate-500">Mat:</span> AISI 304 Stainless Steel</div>
+                  <div><span class="text-slate-500">Port:</span> 25mm Optical Grade PMMA Viewport</div>
+                  <div><span class="text-slate-500">Seal:</span> ISO Standard NBR Shore 70A (25% Comp)</div>
+                  <div><span class="text-slate-500">Yield:</span> 205 MPa (Simulated stress 42.5 MPa)</div>
+                </div>
+                <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between">
+                  <span class="text-xs text-slate-400">Mechanical Engineering Capstone</span>
+                  <span class="text-xs font-mono text-accent-violet">VALIDATED HARDWARE</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 03: Adarshic Reverie -->
+        <div class="gsap-project-card card-glass rounded-3xl p-8 sm:p-12 relative overflow-hidden group">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div class="lg:col-span-7 space-y-6">
+              <div class="flex items-center gap-3">
+                <span class="text-4xl font-display font-black text-amber-400/30">03</span>
+                <span class="px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 text-xs font-mono uppercase">
+                  Creative Production & Audio-Visual
+                </span>
+              </div>
+              <h3 class="font-display font-bold text-3xl sm:text-4xl text-white group-hover:text-amber-400 transition-colors">
+                Adarshic Reverie: Cinematic Audio & Visual Studio
+              </h3>
+              <p class="text-slate-300 leading-relaxed text-sm sm:text-base">
+                Founded and directed the creative identity for "Adarshic Reverie", producing original lo-fi and R&B music compositions, generative visual artwork, and custom branding typography. Integrated high-attention aesthetic micro-details across YouTube and streaming platforms.
+              </p>
+              
+              <div class="grid grid-cols-3 gap-4 pt-2">
+                <div class="p-3.5 rounded-xl bg-dark-900/80 border border-white/5">
+                  <span class="text-[11px] font-mono text-slate-400 block">AUDIO GENRE</span>
+                  <span class="font-display font-bold text-xl text-amber-400">Lo-Fi & R&B</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-dark-900/80 border border-white/5">
+                  <span class="text-[11px] font-mono text-slate-400 block">PRODUCTION</span>
+                  <span class="font-display font-bold text-xl text-white">Full-Stack</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-dark-900/80 border border-white/5">
+                  <span class="text-[11px] font-mono text-slate-400 block">VISUAL SYSTEM</span>
+                  <span class="font-display font-bold text-xl text-accent-cyan">Custom DP/Banner</span>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap gap-2 pt-2">
+                <span class="px-3 py-1 rounded-lg bg-dark-800 text-xs font-mono text-slate-300">Audio Composition</span>
+                <span class="px-3 py-1 rounded-lg bg-dark-800 text-xs font-mono text-slate-300">Adobe Creative Cloud</span>
+                <span class="px-3 py-1 rounded-lg bg-dark-800 text-xs font-mono text-slate-300">Generative AI Visuals</span>
+                <span class="px-3 py-1 rounded-lg bg-dark-800 text-xs font-mono text-slate-300">Brand Identity</span>
+              </div>
+            </div>
+
+            <div class="lg:col-span-5 bg-dark-900 rounded-2xl p-6 border border-white/10 relative overflow-hidden group-hover:border-amber-400/40 transition-colors">
+              <div class="space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-white/5">
+                  <span class="text-xs font-mono text-slate-400">AUDIO_VISUAL_LAB.WAV</span>
+                  <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                </div>
+                <div class="font-mono text-xs text-slate-300 space-y-1.5">
+                  <div class="text-amber-400">// Studio Pipeline & Sonic Physics</div>
+                  <div><span class="text-slate-500">Track:</span> Atmospheric Lo-Fi & Smooth R&B</div>
+                  <div><span class="text-slate-500">Tools:</span> Digital Audio Workstations & AI Synthesizers</div>
+                  <div><span class="text-slate-500">Visuals:</span> Custom 4K High-Contrast Banners</div>
+                  <div><span class="text-slate-500">Reach:</span> Omnichannel Distribution</div>
+                </div>
+                <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between">
+                  <span class="text-xs text-slate-400">YouTube Channel & Creative Studio</span>
+                  <span class="text-xs font-mono text-amber-400">ACTIVE PRODUCTION</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 04: Executive SQL & Decision Telemetry -->
+        <div class="gsap-project-card card-glass rounded-3xl p-8 sm:p-12 relative overflow-hidden group">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div class="lg:col-span-7 space-y-6">
+              <div class="flex items-center gap-3">
+                <span class="text-4xl font-display font-black text-emerald-400/30">04</span>
+                <span class="px-3 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/20 text-emerald-400 text-xs font-mono uppercase">
+                  Data Architecture & SQL Pipelines
+                </span>
+              </div>
+              <h3 class="font-display font-bold text-3xl sm:text-4xl text-white group-hover:text-emerald-400 transition-colors">
+                Executive SQL & Decision Telemetry System
+              </h3>
+              <p class="text-slate-300 leading-relaxed text-sm sm:text-base">
+                Built relational SQL ETL pipelines with automated deduplication window functions and dynamic DAX metrics in Power BI. Modeled a 12-month $6.48M run-rate with 53.1% peak gross margin and monitored 5-stage patient conversion funnels.
+              </p>
+              
+              <div class="grid grid-cols-3 gap-4 pt-2">
+                <div class="p-3.5 rounded-xl bg-dark-900/80 border border-white/5">
+                  <span class="text-[11px] font-mono text-slate-400 block">MODEL REVENUE</span>
+                  <span class="font-display font-bold text-xl text-white">$6.48M</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-dark-900/80 border border-white/5">
+                  <span class="text-[11px] font-mono text-slate-400 block">PEAK MARGIN</span>
+                  <span class="font-display font-bold text-xl text-emerald-400">53.1%</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-dark-900/80 border border-white/5">
+                  <span class="text-[11px] font-mono text-slate-400 block">FUNNEL RETENTION</span>
+                  <span class="font-display font-bold text-xl text-accent-cyan">88.6% M1</span>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap gap-2 pt-2">
+                <span class="px-3 py-1 rounded-lg bg-dark-800 text-xs font-mono text-slate-300">PostgreSQL / BigQuery</span>
+                <span class="px-3 py-1 rounded-lg bg-dark-800 text-xs font-mono text-slate-300">Python Analytics</span>
+                <span class="px-3 py-1 rounded-lg bg-dark-800 text-xs font-mono text-slate-300">DAX Retention Curves</span>
+                <span class="px-3 py-1 rounded-lg bg-dark-800 text-xs font-mono text-slate-300">Executive Dashboards</span>
+              </div>
+            </div>
+
+            <div class="lg:col-span-5 bg-dark-900 rounded-2xl p-6 border border-white/10 relative overflow-hidden group-hover:border-emerald-400/40 transition-colors">
+              <div class="space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-white/5">
+                  <span class="text-xs font-mono text-slate-400">PIPELINE_TRANSFORMATION.SQL</span>
+                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                </div>
+                <div class="font-mono text-xs text-slate-300 space-y-1.5">
+                  <div class="text-emerald-400">// SQL Window Analytics Rollup</div>
+                  <div><span class="text-slate-500">01</span> WITH DedupedTransactions AS (</div>
+                  <div><span class="text-slate-500">02</span> &nbsp;&nbsp;ROW_NUMBER() OVER (PARTITION BY id ORDER BY dt DESC)</div>
+                  <div><span class="text-slate-500">03</span> ), MonthlyRollup AS ( ... )</div>
+                  <div><span class="text-slate-500">04</span> SELECT margin_pct, conversion_rate FROM analytics</div>
+                </div>
+                <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between">
+                  <span class="text-xs text-slate-400">Business Intelligence Framework</span>
+                  <span class="text-xs font-mono text-emerald-400">PRODUCTION CODE</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 02: About & The "Developer Flex" Philosophy -->
+  <section id="about" class="py-32 px-6 bg-dark-900/40 relative border-t border-white/5">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        
+        <div class="lg:col-span-6 space-y-8">
+          <div>
+            <span class="text-xs font-mono text-accent-cyan tracking-widest uppercase block mb-3">
+              // 02. PHILOSOPHY & BACKGROUND
+            </span>
+            <h2 class="font-display font-black text-4xl sm:text-5xl text-white tracking-tight uppercase leading-tight">
+              ENGINEERING RIGOR MEETS CREATIVE DIGITAL INTELLIGENCE
+            </h2>
+          </div>
+
+          <p class="text-slate-300 leading-relaxed text-base sm:text-lg">
+            I don’t just write code or build dashboards—I design cohesive systems. With a strong dual grounding in <span class="text-white font-medium">Mechanical Engineering</span> and <span class="text-white font-medium">MBA Business Analytics</span>, I approach software, data pipelines, and interactive web craft through first principles.
+          </p>
+
+          <p class="text-slate-300 leading-relaxed text-base sm:text-lg">
+            Whether calculating negative pressure stress tolerances in a 10⁻² Torr vacuum chamber or crafting a high-refresh-rate interactive frontend with GSAP and Lenis, the discipline remains unchanged: clean architecture, intentional micro-interactions, and zero tolerance for mediocrity.
+          </p>
+
+          <div class="pt-4 flex flex-wrap gap-4">
+            <div class="px-5 py-3 rounded-xl bg-dark-850 border border-white/10 text-xs font-mono text-slate-300 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-accent-cyan"></span>
+              120Hz Hardware Accelerated Motion
+            </div>
+            <div class="px-5 py-3 rounded-xl bg-dark-850 border border-white/10 text-xs font-mono text-slate-300 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-accent-violet"></span>
+              Quantitative Decision Science
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 space-y-6">
+          <div class="card-glass p-8 rounded-3xl space-y-6">
+            <h3 class="font-display font-bold text-xl text-white">The Core Synthesis</h3>
+            
+            <div class="space-y-4">
+              <div class="p-4 rounded-2xl bg-dark-950/60 border border-white/5">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-display font-semibold text-white text-sm">Empirical Systems Modeling</span>
+                  <span class="font-mono text-xs text-accent-cyan">01</span>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  Translating real-world physical constraints and business funnels into mathematical equations, SQL data models, and verified prototypes.
+                </p>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-dark-950/60 border border-white/5">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-display font-semibold text-white text-sm">Interactive Web Craft ("Developer Flex")</span>
+                  <span class="font-mono text-xs text-accent-cyan">02</span>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  Building responsive, silky smooth interfaces powered by Tailwind CSS, modern JavaScript, GSAP physics, and Lenis inertia scroll.
+                </p>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-dark-950/60 border border-white/5">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-display font-semibold text-white text-sm">Omnichannel Creative Direction</span>
+                  <span class="font-mono text-xs text-accent-cyan">03</span>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  Uniting audio-visual storytelling, lo-fi & R&B soundscapes, and digital marketing physics to capture attention and sustain retention.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 03: Experience & Timeline -->
+  <section id="experience" class="py-32 px-6 relative">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-6">
+        <div>
+          <span class="text-xs font-mono text-accent-cyan tracking-widest uppercase block mb-2">
+            // 03. APPLIED TRAJECTORY
+          </span>
+          <h2 class="font-display font-black text-4xl sm:text-6xl text-white tracking-tight uppercase">
+            EXPERIENCE & EDUCATION
+          </h2>
+        </div>
+        <p class="text-slate-400 max-w-md text-sm sm:text-base">
+          A track record of empirical research execution, agency coordination, and sustained academic distinction.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- Experience 1 -->
+        <div class="card-glass p-8 rounded-3xl space-y-4 relative group">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono text-accent-cyan">12/2025 – 02/2026</span>
+            <span class="text-xs font-mono text-slate-500">JABALPUR, MP</span>
+          </div>
+          <h3 class="font-display font-bold text-2xl text-white group-hover:text-accent-cyan transition-colors">
+            Digital Marketing Intern & Research Lead
+          </h3>
+          <p class="text-sm font-semibold text-slate-300">Pitambara Physio Care & Rehab</p>
+          <ul class="text-sm text-slate-400 space-y-2.5 pt-2">
+            <li class="flex items-start gap-2">
+              <i data-lucide="check" class="w-4 h-4 text-accent-cyan shrink-0 mt-0.5"></i>
+              <span>Directed a primary empirical research study across N=100 healthcare consumers in Jabalpur.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i data-lucide="check" class="w-4 h-4 text-accent-cyan shrink-0 mt-0.5"></i>
+              <span>Proved that therapeutic rehabilitation video reels yield 40% of patient interactions.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i data-lucide="check" class="w-4 h-4 text-accent-cyan shrink-0 mt-0.5"></i>
+              <span>Architected clinical content calendar boosting patient trust and direct inquiry velocity.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Experience 2 -->
+        <div class="card-glass p-8 rounded-3xl space-y-4 relative group">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono text-accent-cyan">12/2025 – 02/2026</span>
+            <span class="text-xs font-mono text-slate-500">JABALPUR, MP</span>
+          </div>
+          <h3 class="font-display font-bold text-2xl text-white group-hover:text-accent-cyan transition-colors">
+            Digital Media Coordinator (Internship)
+          </h3>
+          <p class="text-sm font-semibold text-slate-300">Padma Advertising</p>
+          <ul class="text-sm text-slate-400 space-y-2.5 pt-2">
+            <li class="flex items-start gap-2">
+              <i data-lucide="check" class="w-4 h-4 text-accent-cyan shrink-0 mt-0.5"></i>
+              <span>Synchronized print releases (Dainik Bhaskar, Times of India) with targeted multi-channel digital ad blitzes.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i data-lucide="check" class="w-4 h-4 text-accent-cyan shrink-0 mt-0.5"></i>
+              <span>Streamlined cross-team asset delivery workflows across Adobe Creative Suite, reducing turnaround latency by 25%.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i data-lucide="check" class="w-4 h-4 text-accent-cyan shrink-0 mt-0.5"></i>
+              <span>Optimized client ad copy and localized graphic creative variants for regional demographic segments.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Education 1 -->
+        <div class="card-glass p-8 rounded-3xl space-y-4 relative group">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono text-accent-violet">2024 – 2026</span>
+            <span class="text-xs font-mono text-slate-500">SCORE: 70.0%</span>
+          </div>
+          <h3 class="font-display font-bold text-2xl text-white group-hover:text-accent-violet transition-colors">
+            MBA in Business Analytics
+          </h3>
+          <p class="text-sm font-semibold text-slate-300">Gyan Ganga Institute of Technology & Sciences (RDVV)</p>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Advanced coursework in Business Research Methodology, Data Analytics, Predictive Modeling, Relational Databases, and Quantitative Growth Strategies.
+          </p>
+        </div>
+
+        <!-- Education 2 -->
+        <div class="card-glass p-8 rounded-3xl space-y-4 relative group">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono text-accent-violet">2021 – 2024</span>
+            <span class="text-xs font-mono text-slate-500">SCORE: 74.7% (CGPA 7.2)</span>
+          </div>
+          <h3 class="font-display font-bold text-2xl text-white group-hover:text-accent-violet transition-colors">
+            B.Tech in Mechanical Engineering
+          </h3>
+          <p class="text-sm font-semibold text-slate-300">Gyan Ganga Institute of Technology & Sciences (RGPV)</p>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Core mastery of Thermodynamics, Fluid Dynamics, Finite Element Analysis (FEA), Computer-Aided Design (SolidWorks), and Physical System Prototyping.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 04: Technical Arsenal & Skills Grid -->
+  <section id="skills" class="py-32 px-6 bg-dark-900/40 relative border-t border-white/5">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-6">
+        <div>
+          <span class="text-xs font-mono text-accent-cyan tracking-widest uppercase block mb-2">
+            // 04. TECHNICAL ARSENAL
+          </span>
+          <h2 class="font-display font-black text-4xl sm:text-6xl text-white tracking-tight uppercase">
+            TOOLING & COMPETENCIES
+          </h2>
+        </div>
+        <p class="text-slate-400 max-w-md text-sm sm:text-base">
+          A categorized breakdown of tools, frameworks, and engineering software utilized across projects.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- Category 1: Frontend Craft -->
+        <div class="card-glass p-6 rounded-2xl space-y-5">
+          <div class="w-10 h-10 rounded-xl bg-accent-cyan/10 border border-accent-cyan/20 flex items-center justify-center text-accent-cyan">
+            <i data-lucide="code" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-display font-bold text-xl text-white">Creative Web Craft</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Building responsive, interactive, and fluid web experiences inspired by high-end design studios.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">Tailwind CSS</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">GSAP Animation</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">Lenis Scroll</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">Modern JavaScript</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">HTML5 / Semantic</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">Vercel & Netlify</span>
+          </div>
+        </div>
+
+        <!-- Category 2: Business Analytics -->
+        <div class="card-glass p-6 rounded-2xl space-y-5">
+          <div class="w-10 h-10 rounded-xl bg-accent-blue/10 border border-accent-blue/20 flex items-center justify-center text-accent-blue">
+            <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-display font-bold text-xl text-white">Business Analytics</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Data transformation pipelines, relational schemas, predictive models, and executive dashboards.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">SQL (Postgres)</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">Python (Pandas)</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">Power BI & DAX</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">Advanced Excel</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">Cohort Analysis</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">ETL Pipelines</span>
+          </div>
+        </div>
+
+        <!-- Category 3: Mechanical Systems -->
+        <div class="card-glass p-6 rounded-2xl space-y-5">
+          <div class="w-10 h-10 rounded-xl bg-accent-violet/10 border border-accent-violet/20 flex items-center justify-center text-accent-violet">
+            <i data-lucide="cpu" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-display font-bold text-xl text-white">Engineering & CAD</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            3D parametric modeling, Finite Element Analysis stress simulation, and tolerance calculation.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">SolidWorks 3D</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">FEA Simulation</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">Thermal Dynamics</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">Vacuum Systems</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">Material Science</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">GD&T Standards</span>
+          </div>
+        </div>
+
+        <!-- Category 4: Creative Direction -->
+        <div class="card-glass p-6 rounded-2xl space-y-5">
+          <div class="w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400">
+            <i data-lucide="sparkles" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-display font-bold text-xl text-white">Creative Media & AI</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Audio-visual direction, lo-fi and R&B music composition, and generative AI creative pipelines.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">Adobe Photoshop</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">Premiere Pro</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">Sound Design</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">Brand Identity</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">GenAI Visuals</span>
+            <span class="px-2.5 py-1 rounded bg-dark-850 border border-white/5 text-xs font-mono text-slate-300">Social Physics</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 05: Journal & Insights -->
+  <section id="journal" class="py-32 px-6 relative">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-6">
+        <div>
+          <span class="text-xs font-mono text-accent-cyan tracking-widest uppercase block mb-2">
+            // 05. EDITORIAL JOURNAL
+          </span>
+          <h2 class="font-display font-black text-4xl sm:text-6xl text-white tracking-tight uppercase">
+            INSIGHTS & RESEARCH
+          </h2>
+        </div>
+        <p class="text-slate-400 max-w-md text-sm sm:text-base">
+          Articles on data modeling, viral social physics, and physical hardware engineering.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <div class="card-glass p-8 rounded-3xl space-y-4 group">
+          <span class="text-xs font-mono text-accent-cyan block">RESEARCH &middot; 2026</span>
+          <h3 class="font-display font-bold text-2xl text-white group-hover:text-accent-cyan transition-colors">
+            The Physics of Reel Engagement: Why Video Drops After 6 Seconds
+          </h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            A study on consumer attention curves and algorithmic retention decay modeled in Power BI across 100+ clinical and lifestyle interactions.
+          </p>
+          <div class="pt-2">
+            <span class="text-xs font-mono text-slate-500 flex items-center gap-1">
+              Read Essay <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="card-glass p-8 rounded-3xl space-y-4 group">
+          <span class="text-xs font-mono text-accent-violet block">HARDWARE &middot; 2026</span>
+          <h3 class="font-display font-bold text-2xl text-white group-hover:text-accent-violet transition-colors">
+            Scaling Down Chamber Costs Without Yield Failure in FEA
+          </h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            How first-principles structural simulation in SolidWorks enabled a low-cost 10⁻² Torr vacuum prototype with a factor of safety of 4.82.
+          </p>
+          <div class="pt-2">
+            <span class="text-xs font-mono text-slate-500 flex items-center gap-1">
+              Read Essay <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="card-glass p-8 rounded-3xl space-y-4 group">
+          <span class="text-xs font-mono text-emerald-400 block">DATA PIPELINES &middot; 2026</span>
+          <h3 class="font-display font-bold text-2xl text-white group-hover:text-emerald-400 transition-colors">
+            SQL Window Analytics for Real-Time Clinical Deduplication
+          </h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Architecting robust SQL views using ROW_NUMBER() and COALESCE() to maintain pristine cohort retention telemetry across multi-channel blasts.
+          </p>
+          <div class="pt-2">
+            <span class="text-xs font-mono text-slate-500 flex items-center gap-1">
+              Read Essay <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 06: Contact Section -->
+  <section id="contact" class="py-32 px-6 bg-dark-900/60 relative border-t border-white/5">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+        
+        <div class="lg:col-span-6 space-y-8">
+          <div>
+            <span class="text-xs font-mono text-accent-cyan tracking-widest uppercase block mb-3">
+              // 06. INITIATE COLLABORATION
+            </span>
+            <h2 class="font-display font-black text-5xl sm:text-7xl text-white tracking-tight uppercase leading-[0.9]">
+              LET'S BUILD SOMETHING EXTRAORDINARY.
+            </h2>
+          </div>
+
+          <p class="text-slate-300 text-lg leading-relaxed">
+            Whether you need a quantitative business analyst to unlock growth levers, an interactive frontend developer with an eye for micro-interactions, or a systems thinker to engineer solutions from first principles—let’s talk.
+          </p>
+
+          <div class="space-y-4 pt-4 text-sm font-mono">
+            <a href="mailto:adarsh.banshpal@gmail.com" class="flex items-center gap-3 text-slate-300 hover:text-accent-cyan transition-colors">
+              <i data-lucide="mail" class="w-5 h-5 text-accent-cyan"></i>
+              <span>adarsh.banshpal@gmail.com</span>
+            </a>
+            <a href="tel:+919111531812" class="flex items-center gap-3 text-slate-300 hover:text-accent-cyan transition-colors">
+              <i data-lucide="phone" class="w-5 h-5 text-accent-cyan"></i>
+              <span>+91 9111531812</span>
+            </a>
+            <div class="flex items-center gap-3 text-slate-400">
+              <i data-lucide="map-pin" class="w-5 h-5 text-accent-cyan"></i>
+              <span>Jabalpur, Madhya Pradesh, India</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 pt-4">
+            <a href="https://in.linkedin.com/in/adarsh-banshpal-6a8504258" target="_blank" class="interactive-hover px-5 py-3 rounded-xl bg-dark-800 border border-white/10 hover:border-accent-cyan text-xs font-mono text-slate-200 transition-all">
+              LinkedIn &rarr;
+            </a>
+            <a href="https://adarxshhh.github.io/Adarsh-Banshpal-Resume/" target="_blank" class="interactive-hover px-5 py-3 rounded-xl bg-dark-800 border border-white/10 hover:border-accent-cyan text-xs font-mono text-slate-200 transition-all">
+              GitHub Page &rarr;
+            </a>
+          </div>
+        </div>
+
+        <!-- Interactive Contact Form -->
+        <div class="lg:col-span-6">
+          <div class="card-glass p-8 sm:p-10 rounded-3xl space-y-6">
+            <h3 class="font-display font-bold text-2xl text-white">Send Direct Message</h3>
+            
+            <form id="portfolio-contact-form" class="space-y-4" onsubmit="handleFormSubmit(event)">
+              <div>
+                <label class="block text-xs font-mono text-slate-400 mb-2">YOUR NAME</label>
+                <input type="text" id="contact-name" required placeholder="e.g. Alex Morgan" class="w-full bg-dark-950/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-accent-cyan transition-colors" />
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-mono text-slate-400 mb-2">EMAIL ADDRESS</label>
+                  <input type="email" id="contact-email" required placeholder="alex@company.com" class="w-full bg-dark-950/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-accent-cyan transition-colors" />
+                </div>
+                <div>
+                  <label class="block text-xs font-mono text-slate-400 mb-2">PHONE / WHATSAPP</label>
+                  <input type="tel" id="contact-phone" placeholder="+91 98765 43210" class="w-full bg-dark-950/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-accent-cyan transition-colors" />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-mono text-slate-400 mb-2">SUBJECT</label>
+                <input type="text" id="contact-subject" required placeholder="Project Inquiry / Job Opportunity" class="w-full bg-dark-950/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-accent-cyan transition-colors" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-mono text-slate-400 mb-2">MESSAGE</label>
+                <textarea id="contact-message" required rows="4" placeholder="Tell me about your vision, project, or role requirements..." class="w-full bg-dark-950/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-accent-cyan transition-colors resize-none"></textarea>
+              </div>
+
+              <button type="submit" class="interactive-hover w-full py-4 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-blue text-dark-950 font-display font-bold text-sm uppercase tracking-wider shadow-[0_0_30px_rgba(0,242,254,0.3)] hover:shadow-[0_0_40px_rgba(0,242,254,0.5)] transition-all">
+                Transmit Message &rarr;
+              </button>
+
+              <div id="form-success-msg" class="hidden p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-mono text-center">
+                &check; Message received! Adarsh will respond shortly.
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 px-6 bg-dark-950 border-t border-white/5">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-xs font-mono text-slate-500">
+      <div>
+        &copy; 2026 Adarsh Banshpal. Built with HTML, Tailwind CSS, GSAP, Lenis & Attention to Detail.
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="#hero" class="hover:text-accent-cyan transition-colors flex items-center gap-1 interactive-hover">
+          BACK TO TOP <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts: Icons, Lenis Smooth Scroll, GSAP, Custom Cursor -->
+  <script>
+    lucide.createIcons();
+
+    // 1. Initialize Lenis Smooth Scroll
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+
+    // 2. Custom Cursor Follower
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorRing = document.getElementById('cursor-ring');
+
+    if (cursorDot && cursorRing) {
+      let mouseX = 0, mouseY = 0;
+      let ringX = 0, ringY = 0;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursorDot.style.left = `${mouseX}px`;
+        cursorDot.style.top = `${mouseY}px`;
+      });
+
+      function animateCursor() {
+        ringX += (mouseX - ringX) * 0.18;
+        ringY += (mouseY - ringY) * 0.18;
+        cursorRing.style.left = `${ringX}px`;
+        cursorRing.style.top = `${ringY}px`;
+        requestAnimationFrame(animateCursor);
+      }
+      requestAnimationFrame(animateCursor);
+
+      const interactives = document.querySelectorAll('a, button, input, textarea, .interactive-hover, .card-glass');
+      interactives.forEach(el => {
+        el.addEventListener('mouseenter', () => cursorRing.classList.add('cursor-active'));
+        el.addEventListener('mouseleave', () => cursorRing.classList.remove('cursor-active'));
+      });
+    }
+
+    // 3. GSAP Animations
+    document.addEventListener('DOMContentLoaded', () => {
+      const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      
+      heroTl.from('.gsap-hero-item', {
+        opacity: 0,
+        y: 20,
+        duration: 0.8,
+        stagger: 0.15
+      });
+
+      heroTl.from('.gsap-hero-title span', {
+        opacity: 0,
+        y: 40,
+        skewY: 3,
+        duration: 1,
+        stagger: 0.2
+      }, '-=0.5');
+
+      gsap.utils.toArray('.gsap-project-card').forEach((card) => {
+        gsap.from(card, {
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          },
+          opacity: 0,
+          y: 40,
+          duration: 0.8,
+          ease: 'power2.out'
+        });
+      });
+    });
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const successMsg = document.getElementById('form-success-msg');
+      successMsg.classList.remove('hidden');
+      setTimeout(() => {
+        document.getElementById('portfolio-contact-form').reset();
+      }, 500);
+    }
+  </script>
+</body>
+</html>
+
